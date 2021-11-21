@@ -7,12 +7,23 @@ function cleanUpIndex() {
 
 
 function createSingleIndex(input) {
-    var new_card = document.createElement('div');
-    new_card.className = "contact";
-    new_card.innerHMTL = input;
-    document.body.appendChild(new_card)
-    return new_card
+    /* <a href="page3.html"><div class="contact"><p>Barry Allen</p></div></a> */
+    text = document.createTextNode(input);
+    paragraph = document.createElement('p');
+    div = document.createElement('div');
+    a = document.createElement('a');
+    div.classList.add('contact');
+    a.href = "page3.html";
+    paragraph.appendChild(text);
+    div.appendChild(paragraph);
+    a.appendChild(div);
+    return a
 }
 
-function renderIndex(input)
-    
+function renderIndex(input){
+    /* append onto <div class='main'> list */
+    main = document.querySelectorAll('div.contact');
+    new_card = createSingleIndex(input);
+    main.appendChild(new_card);
+    return main
+}
