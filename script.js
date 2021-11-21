@@ -22,8 +22,8 @@ function createSingleIndex(input) {
 
 function renderIndex(input){
     /* append onto <div class='main'> list */
-    main = document.querySelectorAll('div.contact');
+    main = document.querySelectorAll('div.main');
     new_card = createSingleIndex(input);
-    main.appendChild(new_card);
+    main[0].appendChild(new_card);
     return main
 }
