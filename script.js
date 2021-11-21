@@ -27,3 +27,17 @@ function renderIndex(input){
     main[0].appendChild(new_card);
     return main
 }
+
+function cleanUpView(){
+    let contactinfo = document.querySelectorAll('div.contactinfo');
+    while(contactinfo[0]) {
+        contactinfo[0].parentNode.removeChild(contactinfo[0]);
+    } 
+}
+
+function cleanUpCreate(){
+    let contactedit = document.querySelectorAll('div.contactedit');
+    while(contactedit[0]) {
+        contactedit[0].parentNode.removeChild(contactedit[0]);
+    }
+}
