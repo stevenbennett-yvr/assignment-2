@@ -1,17 +1,21 @@
 let contactList = [
     {
-      name: "Roberta Dobbs",
-      phone: "778-555-1234",
-      address: "101 Main St, Anytown, USA",
-      email: "subgenius@slack.example.com",
+        name: "Barry Allen",
     }, 
     {
-      name: "Bugs Bunny",
-      phone: "123-867-5309",
-      address: "Warner Brothers Animation Lot",
-      email: "whatsup@doc.example.com",
+        name: "Beverly Crusher",
+    },
+    {
+        name: "Diana Prince",
     },
   ]
+
+let createList = [
+    'Contact Name', 'Contact Phone', 'Contact Address', 'Contact Email'
+]
+
+
+/// Index ///
 
 function cleanUpIndex() {
     let contact = document.getElementsByClassName('contact');
@@ -19,7 +23,6 @@ function cleanUpIndex() {
         contact[0].parentNode.removeChild(contact[0]);
     }
 }
-
 
 function createSingleIndex(input) {
     /* define elements <a href="page3.html"><div class="contact"><p>Barry Allen</p></div></a> */
@@ -46,6 +49,8 @@ function renderIndex(contactlist) {
         createSingleIndex(contactlist[i].name);
 }
 
+/// View ///
+
 function cleanUpView(){
     let contactinfo = document.querySelectorAll('div.contactinfo');
     while(contactinfo[0]) {
@@ -53,9 +58,107 @@ function cleanUpView(){
     } 
 }
 
+
+
+
+/// Create ///
+
 function cleanUpCreate(){
     let contactedit = document.querySelectorAll('div.contactedit');
     while(contactedit[0]) {
         contactedit[0].parentNode.removeChild(contactedit[0]);
     }
+}
+
+function createCreate(input){
+/*  
+        <div class="inputcontainer">
+            <input type="text" id="!!!contactname" name="!!!contactname" placeholder="!!!Contact Name">
+            <button class="extrafield" id="extranamefield" name="extranamefield">+</button>
+        </div>
+
+        <div class="inputcontainer">
+            <input type="tel" id="!!!contactphone" name="!!!contactphone" placeholder="!!!Contact Phone">
+            <button class="extrafield" id="extraphonefield" name="extraphonefield">+</button>
+        </div>
+   
+*/ 
+    let inputcontainer = document.createElement('div');
+        inputcontainer.classlist = 'inputcontainer';
+    let inputType = document.createElement('div');
+        inputType.classList = input;
+        inputType.setAttribute('id',input);
+        inputType.setAttribute('name',input);
+        inputType.setAttribute('placeholder',input);
+    let button = document.createElement('button');
+        button.classList = input;
+        button.setAttribute('id',input);
+        button.setAttribute('name',input);
+    plus = document.createTextNode('+');
+
+    button.appendChild(plus);
+    inputcontainer.appendChild(inputType);
+    inputcontainer.appendChild(button);
+    return
+}
+
+function renderCreate(createList){
+/* 
+    <div class="contactedit">
+        <div class="contactimg">
+            <img src="./img/profile.jpg" class ="profilepic" alt="Profile picture">
+        </div>
+        <div class="form">
+            <form>
+            createCreate()
+                <div class="buttons">
+                    <button type="submit" class="button save" id="savecontact" name="savecontact">Save Contact</button>
+                    <button type="reset" class="button cancel" id="cancel" name="cancel">Cancel</button>                
+                </div>
+            </form>
+        </div>
+    </div>
+*/
+
+    let main = document.querySelectorAll('div.main');
+    var contactedit = document.createElement('div');
+        contactedit.classLlist = 'contactedit';
+    let contactimg = document.createElement('div');
+        contactimg.classlist = 'contactimg';
+    let image = document.createElement('img');
+        image.setAttribute('src',"./img/profile.jpg");
+        image.classList = 'profilepic';
+        image.setAttribute('alt','Profile picture')
+    let divform = document.createElement('div');
+        divform.classlist = "form";
+    let form = document.createElement("form");
+    let buttondiv = document.createElement('div');
+        buttondiv.classlist = 'buttons';
+    let submit = document.createElement('button');
+        submit.setAttribute('type','submit');
+        submit.setAttribute('class','button save');
+        submit.setAttribute('id','savecontact');
+        submit.setAttribute('name','savecontact');
+        savetext = document.createTextNode('Save Contact');
+        submit.appendChild(savetext);
+    let cancel = document.createElement('button');
+        cancel.setAttribute('type','reset');
+        cancel.setAttribute('class','button cancel');
+        cancel.setAttribute('id','cancel');
+        cancel.setAttribute('name','cancel');
+        canceltext = document.createTextNode('Cancel');
+        cancel.appendChild(canceltext);
+    /// put it togeather
+
+    main[0].appendChild(contactedit);
+    contactedit.appendChild(contactimg);
+    contactimg.appendChild(image)
+    contactedit.appendChild(divform);
+    divform.appendChild(form);
+    for (let i = 0; i < createList.length; i++) {
+        var update = createCreate(createList[i])
+        form.appendChild(update);
+    divform.appendChild(submit)
+    divform.appendChild(cancel)
+}
 }
