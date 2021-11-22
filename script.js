@@ -10,6 +10,14 @@ let contactList = [
     },
   ]
 
+  let contactName = [{
+    name: "Raquel Ervin",
+    phone: "+1 555 555-5555",
+    address: "123 front st, unit #1, Dakota City",
+    email: "rocket@gmail.com",
+}
+  ]
+
 let createList = [
     'Contact Name', 'Contact Phone', 'Contact Address', 'Contact Email'
 ]
@@ -58,7 +66,68 @@ function cleanUpView(){
     } 
 }
 
-
+function renderView(input){
+/*
+<div class="contactinfo">
+    <div class="contactname">
+        Raquel Ervin
+        <img src="./img/profile.jpg" class="profilepic" alt="Profile picture">
+    </div>
+    <div class="contactemail">email: rocket@gmail.com</div>
+    <div class="contactphone">cell: +1 555 555-5555</div>
+    <div class="contactaddress">address: 123 front st, Unit #1, Dakota City</div>
+    <div class="buttons">
+        <button class="button edit" value="Edit">Edit</button>
+        <button class="button close" value="Close">Close</button>
+    </div>
+</div>
+*/
+    main = document.querySelectorAll('div.main');
+    let contactinfo = document.createElement('div');
+        contactinfo.classList = 'contactinfo';
+    let contactname = document.createElement('div');
+        contactname.classList = 'contactname';
+    let name = document.createTextNode(input[0].name);
+    let image = document.createElement('img');
+        image.setAttribute('src','./img/profile.jpg');
+        image.classList = 'profilepic';
+        image.setAttribute('alt','Profile picture');
+    let contactemail = document.createElement('div');
+        contactemail.classList = 'contactemail';
+        email = document.createTextNode(`Email: ${input[0].email}`);
+    let contactphone = document.createElement('div');
+        contactphone.classList = 'contactphone';
+        phone = document.createTextNode(`Phone: ${input[0].phone}`);
+    let contactaddress = document.createElement('div');
+        contactaddress.classlist = 'contactaddress';
+        address = document.createTextNode(`Address: ${input[0].address}`);
+    let buttons = document.createElement('div');
+        buttons.classList = 'buttons';
+    let edit = document.createElement('button');
+        edit.classList = 'button edit';
+        edit.setAttribute('value','Edit');
+        edittext = document.createTextNode('Edit');
+    let close = document.createElement('button');
+        close.classList = 'button close';
+        close.setAttribute('value','close');
+        closetext = document.createTextNode('Close');
+    ///put it togeather
+    main[0].appendChild(contactinfo);
+    contactinfo.appendChild(contactname);
+    contactname.appendChild(name);
+    contactname.appendChild(image);
+    contactinfo.appendChild(contactemail);
+    contactemail.appendChild(email);
+    contactinfo.appendChild(contactphone);
+    contactphone.append(phone);
+    contactinfo.appendChild(contactaddress);
+    contactaddress.appendChild(address);
+    contactinfo.appendChild(buttons);
+    buttons.appendChild(edit);
+    edit.appendChild(edittext);
+    buttons.appendChild(close);
+    close.appendChild(closetext);
+}
 
 
 /// Create ///
@@ -102,7 +171,7 @@ function createCreate(input){
     return
 }
 
-function renderCreate(createList){
+function renderCreate(input){
 /* 
     <div class="contactedit">
         <div class="contactimg">
@@ -119,7 +188,7 @@ function renderCreate(createList){
         </div>
     </div>
 */
-
+    /// define 
     let main = document.querySelectorAll('div.main');
     var contactedit = document.createElement('div');
         contactedit.classLlist = 'contactedit';
@@ -155,10 +224,27 @@ function renderCreate(createList){
     contactimg.appendChild(image)
     contactedit.appendChild(divform);
     divform.appendChild(form);
-    for (let i = 0; i < createList.length; i++) {
-        var update = createCreate(createList[i])
+
+    for (let i = 0; i < input.length; i++) {
+        var update = createCreate(input[i]);
+        let inputcontainer = document.createElement('div');
+        inputcontainer.classlist = 'inputcontainer';
+        let inputType = document.createElement('div');
+        inputType.classList = input;
+        inputType.setAttribute('id',input);
+        inputType.setAttribute('name',input);
+        inputType.setAttribute('placeholder',input);
+        let button = document.createElement('button');
+        button.classList = input;
+        button.setAttribute('id',input);
+        button.setAttribute('name',input);
         form.appendChild(update);
+        plus = document.createTextNode('+');
+        button.appendChild(plus);
+        inputcontainer.appendChild(inputType);
+        inputcontainer.appendChild(button);
+    }
     divform.appendChild(submit)
     divform.appendChild(cancel)
-}
+
 }
