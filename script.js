@@ -94,6 +94,10 @@ Also, cancel the event, so that there are no other consequences of clicking on t
 
 */
 
+function cleanUpMain() {
+    let main = document.querySelector('div.main');
+    main.innerHTML = ' ';
+    }
 
 function cleanUpIndex() {
     let contact = document.getElementsByClassName('contact');
@@ -101,7 +105,6 @@ function cleanUpIndex() {
         contact[0].parentNode.removeChild(contact[0]);
     }
 }
-
 
 function createSingleIndex(input) {
     let main = document.querySelectorAll('div.main');
@@ -111,21 +114,33 @@ function createSingleIndex(input) {
     div.classList.add('contact');
     let text = document.createTextNode(input);
     let paragraph = document.createElement('p');
-
     paragraph.appendChild(text);
     div.appendChild(paragraph);
     a.appendChild(div);
     main[0].appendChild(a);
 
-    a.addEventListener('click', (event) => {
-        for (let i=0; i< contactList.length; i++) {
-            if (contactList[i]['name'] === a.innerText) {
+    function makeView(event) {
+        console.log(event.target.textContent)
+
+        let name = event.target.textContent;
+
+        let foundContact;
+        for (let i = 0; i < contactlist.length; i++) {
+            if (contactlist[i].name === name) {
+                foundContact = contactlist[i]
                 cleanUpIndex();
-                renderView(contactList[i]);
+                renderView(name);
                 event.preventDefault();
             }
         }
-    }) 
+
+
+//    cleanUpIndex();
+//    renderView();
+    }
+
+    a.addEventListener('click', makeView);
+
     return a;
 
 }
