@@ -1,4 +1,8 @@
-let contactList = [{
+    /* 
+    1 bad bad global contactlist
+    */
+
+let contactlist = [{
     name: "Roberta Dobbs",
     phone: "778-555-1234",
     address: "101 Main St, Anytown, USA",
@@ -12,16 +16,83 @@ let contactList = [{
 },
 ];
 
-let viewlist = [{
-    name: "Roberta Dobbs",
-    phone: "778-555-1234",
-    address: "101 Main St, Anytown, USA",
-    email: "subgenius@slack.example.com",
-}]
+    /* 
+    2. Attach an event listener to the sidebar link that says "Contacts".
+    Any click on this should call a clear function that clears the main area, then call the renderIndex function, passing in the global contact list.
+    Also this listener should cancel the event, so that the link is not followed in the normal way.
+    */
 
-let createList = [
-'Contact Name', 'Contact Phone', 'Contact Address', 'Contact Email'
-]
+document.querySelector('#contactshome').addEventListener('click', event => {
+    cleanUpIndex();
+    cleanUpCreate();
+    cleanUpView();
+    renderIndex(contactlist);
+    event.preventDefault();
+});
+
+    /*
+    3. Attach an event listener to the sidebar link that says "Create New Contact".
+    Any click on this should call a clear function that clears the main area, then call the renderCreate function.
+    Also this listener should cancel the event, so that the link is not followed in the normal way.
+    */
+
+document.querySelector('#newcontact').addEventListener('click', event => {
+    cleanUpIndex();
+    cleanUpView();
+    cleanUpCreate();
+    renderCreate();
+    event.preventDefault();
+});
+
+/*
+4. Modify createSinlgeIndex function so that enire singleIndex dom elemtn has a handler
+
+*/
+
+
+
+
+
+    /*
+    5. Modify render view function, add an event listener to close button.
+document.querySelector('.button.close').addEventListener('click', event => {
+    cleanUpView();
+    renderIndex(contactlist);
+});
+    */
+
+
+    /*
+    6. also in renderview function, ensure that clickign the Edit does nothing.
+
+document.querySelector('.button.edit').addEventListener('click', event => {
+    event.preventDefault();
+});
+    */
+
+    /*
+    7. modify the renderCreate function, add an event listener to cancle button.
+    it should act the same as contacts
+document.querySelector('.cancel.button').addEventListener('click', event => {
+    cleanUpCreate();
+    renderIndex(contactlist);
+});
+    */
+
+/*
+8.
+In your renderCreate function, add an event listener to the "Save" button.
+In this event listener, create a new object, with keys like "name", "email", "phone", and "address".
+
+*/
+
+/*
+9.
+Continuing part (8), append this new object to your global contact list.
+Also, clear the main area, and then call renderView, passing it your new contact.
+Also, cancel the event, so that there are no other consequences of clicking on the button.
+
+*/
 
 
 function cleanUpIndex() {
@@ -31,23 +102,32 @@ function cleanUpIndex() {
     }
 }
 
+
 function createSingleIndex(input) {
-    /* define elements <a href="page3.html"><div class="contact"><p>Barry Allen</p></div></a> */
-    main = document.querySelectorAll('div.main');
-    text = document.createTextNode(input);
-    paragraph = document.createElement('p');
-    div = document.createElement('div');
-    a = document.createElement('a');
-    /* insert class=contact into div and href=page3.html into a */
-    div.classList.add('contact');
+    let main = document.querySelectorAll('div.main');
+    let a = document.createElement('a');
     a.href = "page3.html";
-    /* put the parst togeather */
+    let div = document.createElement('div');
+    div.classList.add('contact');
+    let text = document.createTextNode(input);
+    let paragraph = document.createElement('p');
+
     paragraph.appendChild(text);
     div.appendChild(paragraph);
     a.appendChild(div);
-    /* append into list */
     main[0].appendChild(a);
-    return a
+
+    a.addEventListener('click', (event) => {
+        for (let i=0; i< contactList.length; i++) {
+            if (contactList[i]['name'] === a.innerText) {
+                cleanUpIndex();
+                renderView(contactList[i]);
+                event.preventDefault();
+            }
+        }
+    }) 
+    return a;
+
 }
 
 function renderIndex(contactlist) {
@@ -56,51 +136,40 @@ function renderIndex(contactlist) {
         createSingleIndex(contactlist[i].name);
 }
 
+
+
 /// View ///
 
-function cleanUpView(){
-    let contactinfo = document.querySelectorAll('div.contactinfo');
-    while(contactinfo[0]) {
-        contactinfo[0].parentNode.removeChild(contactinfo[0]);
-    } 
+function cleanUpView() {
+    let contactinfo = document.querySelector('.contactinfo');
+    if (contactinfo) {
+        contactinfo.remove();
+    }
 }
 
-function renderView(viewList){
-/*
-Reference
-<div class="contactinfo">
-    <div class="contactname">
-        Raquel Ervin
-        <img src="./img/profile.jpg" class="profilepic" alt="Profile picture">
-    </div>
-    <div class="contactemail">email: rocket@gmail.com</div>
-    <div class="contactphone">cell: +1 555 555-5555</div>
-    <div class="contactaddress">address: 123 front st, Unit #1, Dakota City</div>
-    <div class="buttons">
-        <button class="button edit" value="Edit">Edit</button>
-        <button class="button close" value="Close">Close</button>
-    </div>
-</div>
-*/
+function renderView(input){
+
+    object = contactlist.find( ({ name }) => name === input );
+
     main = document.querySelectorAll('div.main');
     let contactinfo = document.createElement('div');
         contactinfo.classList = 'contactinfo';
     let contactname = document.createElement('div');
         contactname.classList = 'contactname';
-    let name = document.createTextNode(viewList[0].name);
+    let name = document.createTextNode(object.name);
     let image = document.createElement('img');
         image.setAttribute('src','./img/profile.jpg');
         image.classList = 'profilepic';
         image.setAttribute('alt','Profile picture');
     let contactemail = document.createElement('div');
         contactemail.classList = 'contactemail';
-        email = document.createTextNode(`Email: ${viewList[0].email}`);
+        email = document.createTextNode(`Email: ${object.email}`);
     let contactphone = document.createElement('div');
         contactphone.classList = 'contactphone';
-        phone = document.createTextNode(`Phone: ${viewList[0].phone}`);
+        phone = document.createTextNode(`Phone: ${object.phone}`);
     let contactaddress = document.createElement('div');
         contactaddress.classlist = 'contactaddress';
-        address = document.createTextNode(`Address: ${viewList[0].address}`);
+        address = document.createTextNode(`Address: ${object.address}`);
     let buttons = document.createElement('div');
         buttons.classList = 'buttons';
     let edit = document.createElement('button');
@@ -111,6 +180,7 @@ Reference
         close.classList = 'button close';
         close.setAttribute('value','close');
         closetext = document.createTextNode('Close');
+
     ///put it togeather
     main[0].appendChild(contactinfo);
     contactinfo.appendChild(contactname);
@@ -133,9 +203,9 @@ Reference
 /// Create ///
 
 function cleanUpCreate(){
-    let contactedit = document.querySelectorAll('div.contactedit');
-    while(contactedit[0]) {
-        contactedit[0].parentNode.removeChild(contactedit[0]);
+    let contactedit = document.querySelector('.contactedit');
+    if (contactedit) {
+        contactedit.remove();
     }
 }
 
@@ -170,8 +240,7 @@ function renderCreate(createList) {
             canceltext = document.createTextNode('Cancel');
             cancel.appendChild(canceltext);
         /// put it togeather
-    
-        
+       
         main[0].appendChild(contactedit);
         contactedit.appendChild(contactimg);
         contactimg.appendChild(image)
